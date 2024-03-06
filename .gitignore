@@ -1,5 +1,7 @@
 files/
-test_files/ 
+test_files/
+.conda/
+.DS_Store 
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
