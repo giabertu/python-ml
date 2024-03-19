@@ -57,16 +57,33 @@ def process_audio():
         )
         print(transcription)
         print(transcription.text)
+        audio_text = transcription.text
+
+        # Process text and get the emotion
+
+        completion = aiClient.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You have two tasks. First, you need to analyse the following text and provide your estimated emotion. Secondly, you need to give a hybrid emotion prediction, considering your predicted emotion, and the emotion prediction I provide you. You should keep in mind that the emotion prdiction you are provided is wrong more than 60 per cent of the time. So give more weight to your prediction. You need to reply in the following format: {\"textEmotion\": \"Natural\", \"hybridEmotion\": \"Happy\"}. The list of available emotions are: Angry, Disgusted, Fearful, Neutral, Happy, Sad." },
+            {"role": "user", "content": "Here is the predicted emotion: " + emotions[emotion] + ". Here is the text audio to analyse: " + audio_text},
+        ]
+        )
+
+        print(completion)
+        print(completion.choices[0].message)
+    
+        llmRes = completion.choices[0].message
 
         return jsonify({
             'message': 'Audio processed successfully', 
             'modelPredictedEmotion': emotions[emotion], 
-            'transcript': transcription.text,
-            'filePath':file_path 
+            'transcript': audio_text,
+            'filePath':file_path,
+            'llmRes': llmRes.content
             })
     except Exception as e:
         print(e)
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'code': 500, 'message': str(e)}), 500
     finally:
         # Delete the downloaded and converted files
         if os.path.exists(file_to_open):
