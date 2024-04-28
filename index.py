@@ -31,7 +31,6 @@ def process_audio():
         output_file = "./files/" + file_path.split('/')[1].split('.')[0] + '.wav'
 
         with open(file_to_open, 'wb+') as f:
-            # Assuming 'supabase' is your initialized Supabase client
             res = supabase.storage.from_('audio-files').download(file_path)
             f.write(res)
 
@@ -46,7 +45,6 @@ def process_audio():
         ]
         subprocess.run(command, check=True)
 
-        # Assuming get_emotion is a function defined elsewhere that processes the WAV file
         emotion = get_emotion(output_file)
         print("Emotion:", emotion)
 
@@ -85,7 +83,6 @@ def process_audio():
         print(e)
         return jsonify({'code': 500, 'message': str(e)}), 500
     finally:
-        # Delete the downloaded and converted files
         if os.path.exists(file_to_open):
             os.remove(file_to_open)
         if os.path.exists(output_file):

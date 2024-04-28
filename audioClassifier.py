@@ -1,3 +1,6 @@
+#Model architecture taken and repurposed from: https://towardsdatascience.com/audio-deep-learning-made-simple-sound-classification-step-by-step-cebc936bbe5
+
+
 import torch
 import torch.nn as nn
 
@@ -77,14 +80,12 @@ class AudioClassifier (nn.Module):
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# Create the model and put it on the GPU if available
 myModel = AudioClassifier()
 
 # Load the model's state dictionary
 state_dict = torch.load('emotion_inference_cremad_model.pth', map_location=device)
 myModel.load_state_dict(state_dict)
 
-# Don't forget to call .to(device) to move your model to the appropriate device
 myModel = myModel.to(device)
 
 

@@ -101,11 +101,6 @@ class AudioUtil():
 
 
 
-  # Augment the Spectrogram by masking out some sections of it in both the frequency
-  # dimension (ie. horizontal bars) and the time dimension (vertical bars) to prevent
-  # overfitting and to help the model generalise better. The masked sections are
-  # replaced with the mean value.
-
   # [Data Augmentation on Spectrogram]
   @staticmethod
   def spectro_augment(spec, max_mask_pct=0.1, n_freq_masks=1, n_time_masks=1):
