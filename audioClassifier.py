@@ -79,11 +79,6 @@ class AudioClassifier (nn.Module):
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # Create the model and put it on the GPU if available
 myModel = AudioClassifier()
-# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# myModel = myModel.to(device)
-# # Check that it is on Cuda
-# next(myModel.parameters()).device
-
 
 # Load the model's state dictionary
 state_dict = torch.load('emotion_inference_cremad_model.pth', map_location=device)

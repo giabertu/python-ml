@@ -3,23 +3,23 @@ import torch
 from audioClassifier import myModel, device
 
 # Define your audio processing parameters
-SAMPLE_RATE = 44100
+SAMPLE_RATE = 16000
 CHANNELS = 2
-DURATION = 4000  # in milliseconds
-SHIFT_PCT = 0.4
+# DURATION = 4000  # in milliseconds
+# SHIFT_PCT = 0.4
 
 
 class_id_mapping = {'A': 0, 'D': 1, 'F': 2, 'H': 3, 'N': 4, 'S': 5}
 
 
-def process_audio_file(file_path, sample_rate, channels, duration, shift_pct):
+def process_audio_file(file_path, sample_rate, channels):
     # Load and process the audio file
     aud = AudioUtil.open(file_path)
     reaud = AudioUtil.resample(aud, sample_rate)
     rechan = AudioUtil.rechannel(reaud, channels)
-    dur_aud = AudioUtil.pad_trunc(rechan, duration)
-    sgram = AudioUtil.spectro_gram(dur_aud, n_mels=64, n_fft=1024, hop_len=None)
-    aug_sgram = AudioUtil.spectro_augment(sgram, max_mask_pct=0.1, n_freq_masks=2, n_time_masks=2)
+    # dur_aud = AudioUtil.pad_trunc(rechan, duration)
+    sgram = AudioUtil.spectro_gram(rechan, n_mels=64, n_fft=1024, hop_len=None)
+    aug_sgram = AudioUtil.spectro_augment(sgram, max_mask_pct=0.01, n_freq_masks=2, n_time_masks=2)
 
     # Normalize the spectrogram
     inputs = aug_sgram.unsqueeze(0)  # Add batch dimension
@@ -54,7 +54,7 @@ def single_file_inference(model, processed_input):
 
 def get_emotion(file_path):
     # Process the audio file
-    processed_input = process_audio_file(file_path, SAMPLE_RATE, CHANNELS, DURATION, SHIFT_PCT)
+    processed_input = process_audio_file(file_path, SAMPLE_RATE, CHANNELS)
 
     # Predict the emotional state
     predicted_class_id = single_file_inference(myModel, processed_input)
