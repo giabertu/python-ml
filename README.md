@@ -1,4 +1,4 @@
-Hello! Welcome to the server side repository of Mood-Diary, a Voice-Based Mood Journaling application that incorporates the Nostr protocol for social features. To get started, see the section below. Note that for the emotion preditions to run correctly, you will need to run also the Python REST api backend, which you can find in the "python-ms" folder.
+Hello! Welcome to the server side repository of Mood-Diary, a Voice-Based Mood Journaling application that incorporates the Nostr protocol for social features. To get started, see the section below. Note that this is just the backend endpoint: to run the client, see the mood-diary folder
 
 ## Installation
 
